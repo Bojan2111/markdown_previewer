@@ -1,0 +1,34 @@
+class MarkdownApp extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+        value: "Naslov\n=======\r\n\r\nPodnaslov\r\n-----------\r\n\r\n### Drugi dublji podnaslov\r\n\r\nPasusi su razdvojeni\r\npraznim redom.\r\n\r\nOstavi 2 razmaka na kraju reda da predjes u\r\nsledeci red\r\n\r\nMozes birati svojstva teksta kao sto su: *italic*, **bold**,\r\n`monospace`, ~~strikethrough~~ .\r\n\r\nLista za kupovinu:\r\n\r\n  * jabuke\r\n  * banane\r\n  * kruske\r\n\r\nSpisak po brojevima:\r\n\r\n  1. jabuke\r\n  2. banane\r\n  3. kruske\r\n\r\nKiša ---a ne piša--- \r\noko Niša.\r\n\r\n *Poyy!*"
+      };
+		
+		this.handleChange = this.handleChange.bind(this);
+    }
+  render() {
+    var { value } = this.state;
+    return (
+        <div className="row">
+        <div className="one-half column markdown-div">
+            <textarea
+              className="markdown-input"
+              onChange={this.handleChange}
+              ref="textarea"
+              defaultValue={value}></textarea>
+          </div>
+          <div id= "markdown-output" className="one-half column" dangerouslySetInnerHTML={this.createMarkup()}></div>
+        </div>
+    )
+  }
+  handleChange() {
+    this.setState({value: this.refs.textarea.value});
+  }
+  createMarkup() {
+    let markdown = marked(this.state.value);
+    return {__html: markdown}
+  }
+}
+
+ReactDOM.render(< MarkdownApp />, document.getElementById("container"));
